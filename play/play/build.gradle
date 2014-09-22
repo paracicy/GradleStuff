@@ -1,0 +1,69 @@
+task initializeDatabase
+initializeDatabase << { println 'connect to database' }
+initializeDatabase << { println 'update database schema' }
+//initializeDatabase { print 'configuring ' }
+//initializeDatabase { println 'database connection' }
+
+task createSchema << {
+	println 'createSchema'
+}
+
+// Declare that world depends on hello
+// Preserves any previously defined dependencies as well
+task loadTestData {
+  dependsOn createSchema
+}
+/*
+// An alternate way to express the same dependency
+task loadTestData {
+  dependsOn << createSchema
+}
+
+// Do the same using single quotes (which are usually optional)
+task loadTestData {
+  dependsOn 'createSchema'
+}
+
+// Explicitly call the method on the task object
+task loadTestData
+loadTestData.dependsOn createSchema
+
+// A shortcut for declaring dependencies
+task loadTestData(dependsOn: createSchema)
+*/
+
+task setupDatabaseTests << {
+  println 'load test data'
+}
+
+setupDatabaseTests {
+	println 'in config'
+  doFirst {
+    println 'create schema'
+  }
+}
+
+/***********************************************/
+
+loadTestData << {
+  println 'load test data'
+}
+
+loadTestData.onlyIf {
+  System.properties['load.data'] == 'true'
+}
+
+task echoMyPath << {
+  println "THIS TASK'S PATH IS ${path}"
+}
+
+/******************************/
+task copyFiles {
+  // Find files from wherever, copy them
+  // (then hardcode a list of files for illustration)
+  fileManifest = [ 'data.csv', 'config.json' ]
+}
+
+task createArtifact(dependsOn: copyFiles) << {
+  println "FILES IN MANIFEST: ${copyFiles.fileManifest}"
+}
