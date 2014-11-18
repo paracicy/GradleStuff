@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.widget.TextView;
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
 
 public class MyActivity extends Activity {
 
@@ -12,6 +14,11 @@ public class MyActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
+
+        TextView t = (TextView)findViewById(R.id.mytext);
+        t.setText("name: " + BuildConfig.VERSION_NAME + "\ncode: " + BuildConfig.VERSION_CODE);
+
+        checkForUpdates();
     }
 
 
@@ -32,5 +39,10 @@ public class MyActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store builds!
+        UpdateManager.register(this, "c6635b7b612505806fc44e48efad26a8");
     }
 }

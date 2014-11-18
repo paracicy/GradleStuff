@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'android'
 
 android {
     compileSdkVersion 20
@@ -8,10 +8,13 @@ android {
         applicationId "com.example.liyue.helloandroidstudio"
         minSdkVersion 16
         targetSdkVersion 20
-        versionCode 1
+        versionCode 1411173
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            //versionNameSuffix "-debug-" + getDate()
+        }
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -21,4 +24,11 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile group: 'net.hockeyapp.android', name: 'HockeySDK', version: '3.0.2'
+}
+
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyy-MM-dd-HH:mm')
+    return formattedDate
 }
